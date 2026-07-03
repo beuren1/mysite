@@ -1,3 +1,6 @@
+import factory
+from faker import Factory as FakerFactory
+
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
@@ -28,10 +31,13 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class PostFactory(factory.django.DjangoModelFactory):
-    title = factory.LazyAttribute(lambda x: faker.sentence())
-    created_on = factory.LazyAttribute(lambda x: now())
-    author = factory.SubFactory(UserFactory)
-    status = 0
-
     class Meta:
-      model = Post
+        model = Post
+
+    title = factory.LazyAttribute(lambda x: faker.sentence())
+    slug = factory.LazyAttribute(lambda x: faker.slug())
+    author = factory.SubFactory(UserFactory)
+    updated_on = factory.LazyAttribute(lambda x: now())
+    content = factory.LazyAttribute(lambda x: faker.text())
+    created_on = factory.LazyAttribute(lambda x: now())
+    status = 1
